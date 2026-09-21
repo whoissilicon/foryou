@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function playMusic(customSrc = null) {
     if (!music) return;
     
-    const targetSrc = customSrc || "https://files.catbox.moe/qcqzak.mp3";
+    const targetSrc = customSrc || "https://files.catbox.moe/xsktq8.mp3";
 
     if (music.src !== targetSrc) {
       music.src = targetSrc;
@@ -403,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic("https://files.catbox.moe/qcqzak.mp3");
+        playMusic("https://files.catbox.moe/xsktq8.mp3");
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
