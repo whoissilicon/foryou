@@ -12,21 +12,17 @@
 </head>
 <body>
 
-  <!-- Background Audio with Catbox link -->
   <audio id="backgroundMusic" loop preload="auto">  
     <source src="https://files.catbox.moe/pf1rse.mp3" type="audio/mpeg">  
     Your browser does not support the audio element.
   </audio>
 
-  <!-- Music Toggle Button -->
   <button id="musicToggleBtn" class="music-toggle-btn" style="display: none;">🔊</button>
 
-  <!-- Canvas for Particle Background -->
   <canvas id="particleCanvas"></canvas>
 
   <div class="app-container">
 
-    <!-- SCREEN 1: INTRO -->
     <div id="screen-intro" class="screen active">
       <div class="content-box text-center">
         <span class="status-badge">SYSTEM SECURE </span>
@@ -35,7 +31,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 2: NAME VERIFICATION -->
     <div id="screen-name" class="screen">
       <div class="content-box text-center">
         <span class="status-badge">IDENTITY CHECK</span>
@@ -48,7 +43,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 3: QUESTIONS -->
     <div id="screen-questions" class="screen">
       <div class="content-box text-center">
         <span id="questionNumber" class="status-badge">QUESTION 01 / 04</span>
@@ -61,7 +55,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 4: CONFIRMATION -->
     <div id="screen-confirmation" class="screen">
       <div class="content-box text-center">
         <span class="status-badge">VERIFICATION COMPLETE</span>
@@ -77,7 +70,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 5: MAIN HUB -->
     <div id="screen-hub" class="screen">
       <div class="content-box wide">
         <div class="hub-header">
@@ -110,7 +102,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6A: MEMORIES -->
     <div id="screen-memories" class="screen">
       <div class="content-box wide">
         <button class="btn-back" data-back>← Back to Hub</button>
@@ -141,7 +132,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6B: LITTLE THINGS -->
     <div id="screen-little-things" class="screen">
       <div class="content-box wide">
         <button class="btn-back" data-back>← Back to Hub</button>
@@ -179,7 +169,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6C: SURPRISE LETTER -->
     <div id="screen-letter" class="screen">
       <div class="content-box">
         <button class="btn-back" data-back>← Back to Hub</button>
@@ -205,7 +194,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6D: ONE LAST THING -->
     <div id="screen-suspense" class="screen">
       <div class="content-box text-center">
         <div class="typewriter-box" id="lastText"></div>
@@ -213,9 +201,6 @@
       </div>
     </div>
 
-    <!-- NEW BIRTHDAY SEQUENCE (STAGES) -->
-    
-    <!-- STAGE 1: OPENING / MYSTERY -->
     <div id="stage-opening" class="screen stage">
       <div class="mystery-container">
         <p class="mystery-text fade-in-1">Something special is waiting for you...</p>
@@ -227,7 +212,6 @@
       </div>
     </div>
 
-    <!-- STAGE 2: NAME REVEAL -->
     <div id="stage-name" class="screen stage">
       <div class="name-reveal-container">
         <h1 class="cinematic-name-line line-1">N A I L A</h1>
@@ -237,13 +221,11 @@
       </div>
     </div>
 
-    <!-- STAGE 3: BALLOON REVEAL -->
     <div id="stage-balloons-scene" class="screen stage">
       <div class="scene-heading">Entering a magical realm...</div>
       <div id="floatingBalloonsContainer"></div>
     </div>
 
-    <!-- STAGE 4: MULTIPLE "HAPPY BIRTHDAY" STYLES -->
     <div id="stage-styles" class="screen stage">
       <div class="style-container">
         <div id="hbdStyle1" class="hbd-style">HAPPY BIRTHDAY</div>
@@ -258,7 +240,6 @@
       </div>
     </div>
 
-    <!-- STAGE 5: BALLOON POP SURPRISE -->
     <div id="stage-pop" class="screen stage">
       <div class="pop-instruction">Tap the balloons to reveal your surprises ✨</div>
       <div id="interactiveBalloonArea"></div>
@@ -268,7 +249,6 @@
       <button id="proceedToCakeBtn" class="glowing-btn hidden">Continue to Main Celebration ✨</button>
     </div>
 
-    <!-- STAGE 6: CINEMATIC BIRTHDAY MOMENT -->
     <div id="stage-cake" class="screen stage">
       <div class="cake-scene-container">
         <div class="cake-aura"></div>
@@ -289,7 +269,6 @@
       </div>
     </div>
 
-    <!-- STAGE 7: FINAL SURPRISE -->
     <div id="stage-final" class="screen stage">
       <div id="finalDarkOverlay" class="final-dark-overlay"></div>
       <div class="final-content">
@@ -298,7 +277,7 @@
       </div>
     </div>
 
-    <!-- SCREEN 8: FINAL PHOTO -->
+    <!-- SCREEN 8: FINAL PHOTO (Back button added here) -->
     <div id="screen-final" class="screen">
       <div class="content-box">
         <button class="btn-back" data-back>← Back to Hub</button>
@@ -320,7 +299,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 9: END -->
     <div id="screen-end" class="screen">
       <div class="content-box text-center">
         <span class="status-badge">END OF FILE</span>
