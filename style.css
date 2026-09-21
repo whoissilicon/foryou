@@ -881,6 +881,10 @@ input[type="text"]:focus {
 .pop-instruction {
   position: absolute;
   top: 10%;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+  text-align: center;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   letter-spacing: 2px;
   color: var(--champagne);
@@ -963,8 +967,12 @@ input[type="text"]:focus {
 #proceedToCakeBtn {
   position: absolute;
   bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
+  max-width: calc(100% - 48px);
   z-index: 15;
   transition: all 0.5s ease;
 }
