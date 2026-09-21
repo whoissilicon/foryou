@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>The Naila File</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Serif+Display&family=Great+Vibes&family=Manrope:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +20,9 @@
 
   <!-- Music Toggle Button -->
   <button id="musicToggleBtn" class="music-toggle-btn" style="display: none;">🔊</button>
+
+  <!-- Canvas for Particle Background -->
+  <canvas id="particleCanvas"></canvas>
 
   <div class="app-container">
 
@@ -209,15 +213,88 @@
       </div>
     </div>
 
-    <!-- SCREEN 7: BIRTHDAY REVEAL -->
-    <div id="screen-birthday" class="screen">
-      <div class="ambient-glow"></div>
-      <div class="content-box text-center birthday-container">
-        <span id="birthdayDate" class="reveal-badge hidden">29 SEPTEMBER</span>
-        <h1 id="birthdayTitle" class="reveal-title hidden">Happy Birthday</h1>
-        <h2 id="birthdayName" class="reveal-name hidden">Naila Islam Shifa</h2>
-        <p id="birthdaySub" class="reveal-caption hidden">May this year bring you closer to everything you hope for.</p>
-        <button id="photoBtn" class="btn primary-btn mt-large hidden">View Final Photo →</button>
+    <!-- NEW BIRTHDAY SEQUENCE (STAGES) -->
+    
+    <!-- STAGE 1: OPENING / MYSTERY -->
+    <div id="stage-opening" class="screen stage">
+      <div class="mystery-container">
+        <p class="mystery-text fade-in-1">Something special is waiting for you...</p>
+        <p class="mystery-text fade-in-2">Are you ready?</p>
+        <button id="openBtn" class="glowing-btn">
+          <span>OPEN YOUR SURPRISE ✨</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- STAGE 2: NAME REVEAL -->
+    <div id="stage-name" class="screen stage">
+      <div class="name-reveal-container">
+        <h1 class="cinematic-name-line line-1">N A I L A</h1>
+        <h1 class="cinematic-name-line line-2">ISLAM</h1>
+        <h1 class="cinematic-name-line line-3">SHIFA</h1>
+        <h1 class="cinematic-name-line line-combined">Naila Islam Shifa</h1>
+      </div>
+    </div>
+
+    <!-- STAGE 3: BALLOON REVEAL -->
+    <div id="stage-balloons-scene" class="screen stage">
+      <div class="scene-heading">Entering a magical realm...</div>
+      <div id="floatingBalloonsContainer"></div>
+    </div>
+
+    <!-- STAGE 4: MULTIPLE "HAPPY BIRTHDAY" STYLES -->
+    <div id="stage-styles" class="screen stage">
+      <div class="style-container">
+        <div id="hbdStyle1" class="hbd-style">HAPPY BIRTHDAY</div>
+        <div id="hbdStyle2" class="hbd-style">Happy Birthday, Shifa</div>
+        <div id="hbdStyle3" class="hbd-style">
+          <span class="split-top">HAPPY</span>
+          <span class="split-bottom">BIRTHDAY</span>
+        </div>
+        <div id="hbdStyle4" class="hbd-style">29 SEPTEMBER</div>
+        <div id="hbdStyle5" class="hbd-style">Today is all about YOU.</div>
+        <div id="hbdStyle6" class="hbd-style">Naila Islam Shifa</div>
+      </div>
+    </div>
+
+    <!-- STAGE 5: BALLOON POP SURPRISE -->
+    <div id="stage-pop" class="screen stage">
+      <div class="pop-instruction">Tap the balloons to reveal your surprises ✨</div>
+      <div id="interactiveBalloonArea"></div>
+      <div id="messagePopup" class="hidden-message-box">
+        <p id="popupText"></p>
+      </div>
+      <button id="proceedToCakeBtn" class="glowing-btn hidden">Continue to Main Celebration ✨</button>
+    </div>
+
+    <!-- STAGE 6: CINEMATIC BIRTHDAY MOMENT -->
+    <div id="stage-cake" class="screen stage">
+      <div class="cake-scene-container">
+        <div class="cake-aura"></div>
+        <div class="birthday-cake">
+          <div class="candle">
+            <div class="flame"></div>
+          </div>
+          <div class="cake-layer layer-top"></div>
+          <div class="cake-layer layer-middle"></div>
+          <div class="cake-layer layer-bottom"></div>
+          <div class="plate"></div>
+        </div>
+        <div class="cake-text-content">
+          <p class="cake-date">29 SEPTEMBER</p>
+          <h2 class="cake-title">HAPPY BIRTHDAY</h2>
+          <h3 class="cake-name">Naila Islam Shifa</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 7: FINAL SURPRISE -->
+    <div id="stage-final" class="screen stage">
+      <div id="finalDarkOverlay" class="final-dark-overlay"></div>
+      <div class="final-content">
+        <p id="finalLine1" class="final-text-line">Wait... there's one more thing.</p>
+        <h1 id="finalLine2" class="final-text-line-main">Happy Birthday, Naila Islam Shifa ❤️</h1>
       </div>
     </div>
 
