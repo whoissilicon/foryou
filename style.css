@@ -33,8 +33,9 @@ body, html {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   overflow-x: hidden;
+  overflow-y: auto;
   line-height: 1.6;
   position: fixed;
 }
