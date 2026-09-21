@@ -5,8 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let isPlaying = false;
 
-  function playMusic() {
+  function playMusic(customSrc = null) {
     if (!music) return;
+    
+    const targetSrc = customSrc || "https://files.catbox.moe/qcqzak.mp3";
+
+    if (music.src !== targetSrc) {
+      music.src = targetSrc;
+      music.load();
+    }
+
     music.volume = 0.35;
     
     const playPromise = music.play();
@@ -47,6 +55,65 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particlesArray = [];
+
+  function resizeCanvas() {
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2.2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4 - 0.2;
+      this.opacity = Math.random() * 0.7 + 0.2;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0) this.x = canvas.width;
+      if (this.x > canvas.width) this.x = 0;
+      if (this.y < 0) this.y = canvas.height;
+      if (this.y > canvas.height) this.y = 0;
+    }
+    draw() {
+      ctx.fillStyle = `rgba(243, 229, 171, ${this.opacity})`;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particlesArray = [];
+    if (!canvas) return;
+    const count = Math.floor((window.innerWidth * window.innerHeight) / 8000);
+    for (let i = 0; i < count; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+  initParticles();
+
+  function animateParticles() {
+    if (ctx && canvas) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => {
+        p.update();
+        p.draw();
+      });
+    }
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
 
   const validNames = [
     "naila",
@@ -129,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
     });
-    const screen = document.getElementById("screen-" + id) || document.getElementById(id);
+    const screen = document.getElementById(id) || document.getElementById("screen-" + id);
     if (screen) {
       screen.classList.add("active");
     }
@@ -332,30 +399,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll(".file-card").forEach(card => {
-    card.addEventListener("click", () => {
-      const target = card.dataset.open;
-      if (target === "memories") {
-        playMusic();
-        showScreen("screen-memories");
-        initMemories();
-      } else if (target === "little-things") {
-        showScreen("screen-little-things");
-      } else if (target === "letter") {
-        showScreen("screen-letter");
-      } else if (target === "last") {
-        showScreen("screen-suspense");
-        startLastThing();
-      }
-    });
-  });
-
-  // Hub card click support using data-open attribute (since cards use data-open)
   document.querySelectorAll(".hub-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic();
+        playMusic("https://files.catbox.moe/qcqzak.mp3");
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
@@ -505,31 +553,246 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent = "Continue →";
         button.classList.remove("hidden");
         button.onclick = () => {
-          showScreen("screen-birthday");
-          startBirthday();
+          showScreen("stage-opening");
+          runStageOpening();
         };
       }
     );
   }
 
-  function startBirthday() {
-    const date = document.getElementById("birthdayDate");
-    const title = document.getElementById("birthdayTitle");
-    const name = document.getElementById("birthdayName");
-    const sub = document.getElementById("birthdaySub");
-    const button = document.getElementById("photoBtn");
+  const stages = [
+    document.getElementById('stage-opening'),
+    document.getElementById('stage-name'),
+    document.getElementById('stage-balloons-scene'),
+    document.getElementById('stage-styles'),
+    document.getElementById('stage-pop'),
+    document.getElementById('stage-cake'),
+    document.getElementById('stage-final')
+  ];
 
-    if (date) date.classList.add("hidden");
-    if (title) title.classList.add("hidden");
-    if (name) name.classList.add("hidden");
-    if (sub) sub.classList.add("hidden");
-    if (button) button.classList.add("hidden");
+  function switchStage(fromIndex, toIndex) {
+    stages[fromIndex].classList.remove('active');
+    setTimeout(() => {
+      stages[toIndex].classList.add('active');
+      onStageEnter(toIndex);
+    }, 1000);
+  }
 
-    setTimeout(() => { if (date) date.classList.remove("hidden"); }, 300);
-    setTimeout(() => { if (title) title.classList.remove("hidden"); }, 1000);
-    setTimeout(() => { if (name) name.classList.remove("hidden"); }, 1800);
-    setTimeout(() => { if (sub) sub.classList.remove("hidden"); }, 2600);
-    setTimeout(() => { if (button) button.classList.remove("hidden"); }, 3400);
+  function onStageEnter(index) {
+    switch(index) {
+      case 1: runNameRevealStage(); break;
+      case 2: runBalloonSceneStage(); break;
+      case 3: runStylesStage(); break;
+      case 4: runBalloonPopStage(); break;
+      case 5: runCakeStage(); break;
+      case 6: runFinalStage(); break;
+    }
+  }
+
+  const openBtn = document.getElementById('openBtn');
+  if (openBtn) {
+    openBtn.onclick = () => {
+      playMusic("https://files.catbox.moe/pf1rse.mp3");
+      switchStage(0, 1);
+    };
+  }
+
+  function runStageOpening() {
+    stages.forEach(s => s.classList.remove('active'));
+    const opening = document.getElementById('stage-opening');
+    if (opening) opening.classList.add('active');
+  }
+
+  function runNameRevealStage() {
+    const line1 = document.querySelector('.line-1');
+    const line2 = document.querySelector('.line-2');
+    const line3 = document.querySelector('.line-3');
+    const lineCombined = document.querySelector('.line-combined');
+
+    if (line1) setTimeout(() => line1.classList.add('show'), 500);
+    if (line1 && line2) setTimeout(() => { line1.classList.remove('show'); line2.classList.add('show'); }, 2200);
+    if (line2 && line3) setTimeout(() => { line2.classList.remove('show'); line3.classList.add('show'); }, 3900);
+    if (line3 && lineCombined) setTimeout(() => {
+      line3.classList.remove('show');
+      lineCombined.classList.add('show');
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#d4af37', '#f3e5ab', '#ffb6c1', '#fafafa']
+      });
+    }, 5600);
+
+    setTimeout(() => { switchStage(1, 2); }, 8800);
+  }
+
+  function runBalloonSceneStage() {
+    const container = document.getElementById('floatingBalloonsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const colors = ['#d4af37', '#e8b4b8', '#b8c5e8', '#e8d4b8', '#d4b8e8', '#f7e7ce'];
+    
+    for (let i = 0; i < 25; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'css-balloon';
+      balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.left = `${Math.random() * 90 + 5}%`;
+      balloon.style.animationDuration = `${Math.random() * 6 + 6}s`;
+      balloon.style.animationDelay = `${Math.random() * 4}s`;
+      container.appendChild(balloon);
+    }
+
+    setTimeout(() => { switchStage(2, 3); }, 7500);
+  }
+
+  function runStylesStage() {
+    const styles = [
+      document.getElementById('hbdStyle1'),
+      document.getElementById('hbdStyle2'),
+      document.getElementById('hbdStyle3'),
+      document.getElementById('hbdStyle4'),
+      document.getElementById('hbdStyle5'),
+      document.getElementById('hbdStyle6')
+    ];
+
+    let currentStyle = 0;
+
+    function showNextStyle() {
+      if (currentStyle > 0 && styles[currentStyle - 1]) {
+        styles[currentStyle - 1].style.opacity = '0';
+        styles[currentStyle - 1].style.transform = 'scale(1.05)';
+      }
+      if (currentStyle < styles.length && styles[currentStyle]) {
+        styles[currentStyle].style.opacity = '1';
+        styles[currentStyle].style.transform = 'scale(1)';
+        currentStyle++;
+        setTimeout(showNextStyle, 3200);
+      } else {
+        setTimeout(() => { switchStage(3, 4); }, 1500);
+      }
+    }
+    showNextStyle();
+  }
+
+  function runBalloonPopStage() {
+    const area = document.getElementById('interactiveBalloonArea');
+    if (!area) return;
+    area.innerHTML = '';
+    const popup = document.getElementById('messagePopup');
+    const popupText = document.getElementById('popupText');
+    const proceedBtn = document.getElementById('proceedToCakeBtn');
+
+    const messages = [
+      "Keep smiling.",
+      "You deserve all the happiness.",
+      "Today is your day.",
+      "Another beautiful year begins.",
+      "Stay exactly who you are."
+    ];
+
+    const colors = ['#d4af37', '#e8b4b8', '#d4b8e8', '#f7e7ce', '#b8c5e8'];
+    let poppedCount = 0;
+    const totalBalloons = messages.length;
+
+    const positions = [
+      { top: '25%', left: '20%' },
+      { top: '35%', left: '70%' },
+      { top: '55%', left: '30%' },
+      { top: '60%', left: '75%' },
+      { top: '45%', left: '48%' }
+    ];
+
+    positions.forEach((pos, index) => {
+      const b = document.createElement('div');
+      b.className = 'interactive-balloon';
+      b.style.backgroundColor = colors[index % colors.length];
+      b.style.top = pos.top;
+      b.style.left = pos.left;
+
+      b.addEventListener('click', () => {
+        const rect = b.getBoundingClientRect();
+        const x = (rect.left + rect.width / 2) / window.innerWidth;
+        const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+        confetti({
+          particleCount: 30,
+          spread: 50,
+          origin: { x, y },
+          colors: [colors[index % colors.length], '#ffffff', '#d4af37']
+        });
+
+        b.style.transform = 'scale(1.4)';
+        b.style.opacity = '0';
+        setTimeout(() => b.remove(), 300);
+
+        if (popupText) popupText.textContent = messages[index];
+        if (popup) popup.classList.add('show');
+
+        poppedCount++;
+        if (poppedCount === totalBalloons) {
+          setTimeout(() => {
+            if (popup) popup.classList.remove('show');
+            if (proceedBtn) proceedBtn.classList.remove('hidden');
+          }, 2500);
+        }
+      });
+
+      area.appendChild(b);
+    });
+
+    if (proceedBtn) {
+      proceedBtn.onclick = () => {
+        if (popup) popup.classList.remove('hidden');
+        switchStage(4, 5);
+      };
+    }
+  }
+
+  function runCakeStage() {
+    confetti({
+      particleCount: 80,
+      spread: 90,
+      origin: { y: 0.5 },
+      colors: ['#d4af37', '#f3e5ab', '#ffb6c1']
+    });
+
+    setTimeout(() => { switchStage(5, 6); }, 9000);
+  }
+
+  function runFinalStage() {
+    const overlay = document.getElementById('finalDarkOverlay');
+    const line1 = document.getElementById('finalLine1');
+    const line2 = document.getElementById('finalLine2');
+
+    setTimeout(() => { if (overlay) overlay.classList.add('active'); }, 1500);
+    setTimeout(() => { if (line1) line1.classList.add('show'); }, 3000);
+    setTimeout(() => { if (line1) line1.classList.remove('show'); }, 6000);
+    setTimeout(() => {
+      if (line2) line2.classList.add('show');
+      
+      var duration = 4.5 * 1000;
+      var animationEnd = Date.now() + duration;
+      var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 30 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        var particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#d4af37', '#ffb6c1', '#ffffff'] }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#f3e5ab', '#f7e7ce', '#d4af37'] }));
+      }, 2505);
+
+    }, 7000);
+
+    setTimeout(() => {
+      showScreen("screen-final");
+    }, 14000);
   }
 
   const photoBtn = document.getElementById("photoBtn");
