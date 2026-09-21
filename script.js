@@ -795,13 +795,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 14000);
   }
 
-  const photoBtn = document.getElementById("photoBtn");
-  if (photoBtn) {
-    photoBtn.addEventListener("click", () => {
-      showScreen("screen-final");
-    });
-  }
-
   const endBtn = document.getElementById("endBtn");
   if (endBtn) {
     endBtn.addEventListener("click", () => {
