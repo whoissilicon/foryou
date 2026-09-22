@@ -1287,3 +1287,70 @@ input[type="text"]:focus {
     max-height: 60vh;
   }
 }
+
+/* --- COUNTDOWN LOCK SCREEN --- */
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.lock-screen.hidden {
+  display: none;
+}
+
+.lock-content {
+  max-width: 420px;
+  width: 100%;
+}
+
+.lock-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--warm-white);
+  margin: 20px 0 8px;
+}
+
+.lock-sub {
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  font-size: 0.95rem;
+}
+
+.countdown-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.countdown-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 16px;
+  min-width: 64px;
+}
+
+.countdown-box span {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--gold);
+  line-height: 1.2;
+}
+
+.countdown-box small {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
