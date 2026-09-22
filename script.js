@@ -1,5 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const lockScreen = document.getElementById("lockScreen");
+  const unlockTimestamp = new Date("2026-09-29T00:00:00+06:00").getTime();
+
+  function updateLockCountdown() {
+    const now = Date.now();
+    const diff = unlockTimestamp - now;
+
+    if (diff <= 0) {
+      if (lockScreen) lockScreen.classList.add("hidden");
+      clearInterval(lockCountdownTimer);
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    const dEl = document.getElementById("cdDays");
+    const hEl = document.getElementById("cdHours");
+    const mEl = document.getElementById("cdMinutes");
+    const sEl = document.getElementById("cdSeconds");
+
+    if (dEl) dEl.textContent = String(days).padStart(2, "0");
+    if (hEl) hEl.textContent = String(hours).padStart(2, "0");
+    if (mEl) mEl.textContent = String(minutes).padStart(2, "0");
+    if (sEl) sEl.textContent = String(seconds).padStart(2, "0");
+  }
+
+  let lockCountdownTimer;
+  if (lockScreen) {
+    updateLockCountdown();
+    lockCountdownTimer = setInterval(updateLockCountdown, 1000);
+  }
+
   const music = document.getElementById("backgroundMusic");
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
@@ -553,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent = "Continue →";
         button.classList.remove("hidden");
         button.onclick = () => {
-          showScreen("stage-opening");
+          ("stage-opening");
           runStageOpening();
         };
       }
@@ -575,7 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       stages[toIndex].classList.add('active');
       onStageEnter(toIndex);
-    }, 1000);
+    }, 667);
   }
 
   function onStageEnter(index) {
@@ -609,9 +644,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const line3 = document.querySelector('.line-3');
     const lineCombined = document.querySelector('.line-combined');
 
-    if (line1) setTimeout(() => line1.classList.add('show'), 500);
-    if (line1 && line2) setTimeout(() => { line1.classList.remove('show'); line2.classList.add('show'); }, 2200);
-    if (line2 && line3) setTimeout(() => { line2.classList.remove('show'); line3.classList.add('show'); }, 3900);
+    if (line1) setTimeout(() => line1.classList.add('show'), 333);
+    if (line1 && line2) setTimeout(() => { line1.classList.remove('show'); line2.classList.add('show'); }, 1467);
+    if (line2 && line3) setTimeout(() => { line2.classList.remove('show'); line3.classList.add('show'); }, 2600);
     if (line3 && lineCombined) setTimeout(() => {
       line3.classList.remove('show');
       lineCombined.classList.add('show');
@@ -621,9 +656,9 @@ document.addEventListener("DOMContentLoaded", () => {
         origin: { y: 0.6 },
         colors: ['#d4af37', '#f3e5ab', '#ffb6c1', '#fafafa']
       });
-    }, 5600);
+    }, 3733);
 
-    setTimeout(() => { switchStage(1, 2); }, 8800);
+    setTimeout(() => { switchStage(1, 2); }, 5867);
   }
 
   function runBalloonSceneStage() {
@@ -642,7 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
       container.appendChild(balloon);
     }
 
-    setTimeout(() => { switchStage(2, 3); }, 7500);
+    setTimeout(() => { switchStage(2, 3); }, 5000);
   }
 
   function runStylesStage() {
@@ -666,9 +701,9 @@ document.addEventListener("DOMContentLoaded", () => {
         styles[currentStyle].style.opacity = '1';
         styles[currentStyle].style.transform = 'scale(1)';
         currentStyle++;
-        setTimeout(showNextStyle, 3200);
+        setTimeout(showNextStyle, 2133);
       } else {
-        setTimeout(() => { switchStage(3, 4); }, 1500);
+        setTimeout(() => { switchStage(3, 4); }, 1000);
       }
     }
     showNextStyle();
@@ -733,7 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => {
             if (popup) popup.classList.remove('show');
             if (proceedBtn) proceedBtn.classList.remove('hidden');
-          }, 2500);
+          }, 1667);
         }
       });
 
@@ -756,7 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ['#d4af37', '#f3e5ab', '#ffb6c1']
     });
 
-    setTimeout(() => { switchStage(5, 6); }, 9000);
+    setTimeout(() => { switchStage(5, 6); }, 6000);
   }
 
   function runFinalStage() {
@@ -764,13 +799,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const line1 = document.getElementById('finalLine1');
     const line2 = document.getElementById('finalLine2');
 
-    setTimeout(() => { if (overlay) overlay.classList.add('active'); }, 1500);
-    setTimeout(() => { if (line1) line1.classList.add('show'); }, 3000);
-    setTimeout(() => { if (line1) line1.classList.remove('show'); }, 6000);
+    setTimeout(() => { if (overlay) overlay.classList.add('active'); }, 1000);
+    setTimeout(() => { if (line1) line1.classList.add('show'); }, 2000);
+    setTimeout(() => { if (line1) line1.classList.remove('show'); }, 4000);
     setTimeout(() => {
       if (line2) line2.classList.add('show');
       
-      var duration = 4.5 * 1000;
+      var duration = 3 * 1000;
       var animationEnd = Date.now() + duration;
       var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 30 };
 
@@ -786,13 +821,13 @@ document.addEventListener("DOMContentLoaded", () => {
         var particleCount = 50 * (timeLeft / duration);
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#d4af37', '#ffb6c1', '#ffffff'] }));
         confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#f3e5ab', '#f7e7ce', '#d4af37'] }));
-      }, 2505);
+      }, 1670);
 
-    }, 7000);
+    }, 4667);
 
     setTimeout(() => {
       showScreen("screen-final");
-    }, 14000);
+    }, 9333);
   }
 
   const endBtn = document.getElementById("endBtn");
