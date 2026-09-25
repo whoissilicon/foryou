@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent = "Continue →";
         button.classList.remove("hidden");
         button.onclick = () => {
-          ("stage-opening");
+          showScreen("stage-opening");
           runStageOpening();
         };
       }
