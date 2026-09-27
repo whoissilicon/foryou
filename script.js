@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
-  let currentTrackSrc = "audio/memories.mp3";
+  let currentTrackSrc = "memories.mp3";
 
   function playMusic(customSrc = null) {
     if (!music) return;
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic("audio/memories.mp3");
+        playMusic("memories.mp3");
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const openBtn = document.getElementById('openBtn');
   if (openBtn) {
     openBtn.onclick = () => {
-      playMusic("audio/celebration.mp3");
+      playMusic("celebration.mp3");
       switchStage(0, 1);
     };
   }
