@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const lockScreen = document.getElementById("lockScreen");
   const unlockTimestamp = new Date("2026-09-29T00:00:00+06:00").getTime();
 
+  // Lock screen countdown is ACTIVE — visitors can't see the site until the unlock date/time above.
+  const DISABLE_LOCK_FOR_TESTING = false;
+  if (DISABLE_LOCK_FOR_TESTING && lockScreen) {
+    lockScreen.classList.add("hidden");
+  }
+
   function updateLockCountdown() {
     const now = Date.now();
     const diff = unlockTimestamp - now;
@@ -39,11 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
+  let currentTrackSrc = "audio/memories.mp3";
 
   function playMusic(customSrc = null) {
     if (!music) return;
-    
-    const targetSrc = customSrc || "https://files.catbox.moe/xsktq8.mp3";
+
+    const targetSrc = customSrc || currentTrackSrc;
+    currentTrackSrc = targetSrc;
 
     if (music.src !== targetSrc) {
       music.src = targetSrc;
@@ -438,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic("https://files.catbox.moe/xsktq8.mp3");
+        playMusic("audio/memories.mp3");
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
@@ -627,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const openBtn = document.getElementById('openBtn');
   if (openBtn) {
     openBtn.onclick = () => {
-      playMusic("https://files.catbox.moe/pf1rse.mp3");
+      playMusic("audio/celebration.mp3");
       switchStage(0, 1);
     };
   }
@@ -777,7 +785,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (proceedBtn) {
       proceedBtn.onclick = () => {
-        if (popup) popup.classList.remove('hidden');
         switchStage(4, 5);
       };
     }
