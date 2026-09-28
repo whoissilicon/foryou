@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const unlockTimestamp = new Date("2026-09-29T00:00:00+06:00").getTime();
 
   // Lock screen countdown is ACTIVE — visitors can't see the site until the unlock date/time above.
-  const DISABLE_LOCK_FOR_TESTING = true;
+  const DISABLE_LOCK_FOR_TESTING = false;
   if (DISABLE_LOCK_FOR_TESTING && lockScreen) {
     lockScreen.classList.add("hidden");
   }
