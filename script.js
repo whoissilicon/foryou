@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const unlockTimestamp = new Date("2026-09-29T00:00:00+06:00").getTime();
 
   // Lock screen countdown is ACTIVE — visitors can't see the site until the unlock date/time above.
-  const DISABLE_LOCK_FOR_TESTING = false;
+  const DISABLE_LOCK_FOR_TESTING = true;
   if (DISABLE_LOCK_FOR_TESTING && lockScreen) {
     lockScreen.classList.add("hidden");
   }
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
-  let currentTrackSrc = "memories.mp3";
+  let currentTrackSrc = "audio/memories.mp3";
 
   function playMusic(customSrc = null) {
     if (!music) return;
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic("memories.mp3");
+        playMusic("audio/memories.mp3");
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const openBtn = document.getElementById('openBtn');
   if (openBtn) {
     openBtn.onclick = () => {
-      playMusic("celebration.mp3");
+      playMusic("audio/celebration.mp3");
       switchStage(0, 1);
     };
   }
